@@ -89,7 +89,7 @@ std::vector<int> UndirectedGraph::getDegreeSequence() const {
 }
 
 UndirectedGraph UndirectedGraph::mergeEdges(const UndirectedGraph &graph1, const UndirectedGraph &graph2, bool keepMultipleEdges) {
-    global::assertf(graph1.size().first == graph2.size().first, "Can not merge two graphs on a different number of vertices");
+    global::assertf(graph1.size().first == graph2.size().first, "[UndirectedGraph.mergeEdges] Can not merge two graphs on a different number of vertices");
     auto edges1 = graph1.edges();
     auto edges2 = graph1.edges();
     std::vector<std::pair<int, int>> mergedEdges(edges1.size() + edges2.size());

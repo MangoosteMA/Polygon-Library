@@ -3,10 +3,12 @@
 #include "../global/global.h"
 #include "../random/random.h"
 
+#include <functional>
+
 namespace random::tree {
     template<typename random_t>
     UndirectedGraph randomPruferCode(int vertices, random_t &rng) {
-        global::assertf(vertices >= 0, "Negative number of vertices: " + std::to_string(vertices));
+        global::assertf(vertices >= 0, "[randomPruferCode] Negative number of vertices: " + std::to_string(vertices));
         if (vertices <= 1) {
             return UndirectedGraph(vertices);
         }
@@ -64,5 +66,27 @@ namespace random::tree {
         random::shuffle(tree.begin(), tree.end(), rng);
         tree.resize(edges);
         return UndirectedGraph(vertices, tree);
+    }
+
+    std::vector<int> decodeParentArray(const UndirectedGraph &graph, int root = 0) {
+        global::assertf(graph.isTree(), "[decodeParentArray] Can't decode parents for non-tree graph.");
+
+        const auto g = graph.graph();
+        std::vector<int> parents(graph.size().first, -1);
+        int free_index = 0;
+
+        std::function<void(int, int)> dfs = [&](int v, int p) -> void {
+            int index = free_index;
+            free_index++;
+            for (auto u : g[v]) {
+                if (u != p) {
+                    parents[free_index] = index;
+                    dfs(u, v);
+                }
+            }
+        };
+
+        dfs(root, root);
+        return parents;
     }
 } // namespace random::tree

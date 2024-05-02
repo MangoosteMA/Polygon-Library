@@ -3,7 +3,7 @@
 namespace random {
     template<typename T, typename random_t>
     T random(const T &minValue, const T&maxValue, random_t &rng) {
-        global::assertf(minValue < maxValue, "Can not create random number on the interval ["
+        global::assertf(minValue < maxValue, "[random] Can not create random number on the interval ["
                                         + std::to_string(minValue) + ", " + std::to_string(maxValue) + ")");
         return minValue + rng.next(maxValue - minValue);
     }

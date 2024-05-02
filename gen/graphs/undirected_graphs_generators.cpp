@@ -9,10 +9,10 @@
 namespace random::graph::undirected {
     template<typename random_t>
     UndirectedGraph randomNoLoopsAndMultipleEdges(int vertices, int edges, random_t &rng) {
-        global::assertf(vertices >= 0, "Negative number of vertices: " + std::to_string(vertices));
-        global::assertf(edges >= 0, "Negative number of edges: " + std::to_string(edges));
+        global::assertf(vertices >= 0, "[randomNoLoopsAndMultipleEdges] Negative number of vertices: " + std::to_string(vertices));
+        global::assertf(edges >= 0, "[randomNoLoopsAndMultipleEdges] Negative number of edges: " + std::to_string(edges));
         long long maxNumberOfEdges = 1ll * vertices * (vertices - 1) / 2;
-        global::assertf(edges <= maxNumberOfEdges, "There is no graph with " + std::to_string(vertices)
+        global::assertf(edges <= maxNumberOfEdges, "[randomNoLoopsAndMultipleEdges] There is no graph with " + std::to_string(vertices)
                                                  + " vertices and " + std::to_string(edges) + " edges.");
 
         if (edges * 2 > maxNumberOfEdges) {
