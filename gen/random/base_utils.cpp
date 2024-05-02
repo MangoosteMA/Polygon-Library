@@ -19,8 +19,8 @@ namespace random {
     }
 
     template<typename T, typename random_t>
-    std::vector<T> distinctRandomIntegers(const T &minValue, const T &maxValue, int n, random_t &rng) {
-        global::assertf(maxValue - minValue >= n, "[generateNDistinctRandomIntegers] maxValue - minValue >= n must holds.");
+    std::vector<T> distinctIntegers(const T &minValue, const T &maxValue, int n, random_t &rng) {
+        global::assertf(maxValue - minValue >= n, "[distinctIntegers] maxValue - minValue >= n must holds.");
         std::vector<T> result(n);
         if (maxValue - minValue <= 2 * n) {
             std::vector<T> elements(maxValue - minValue);
@@ -46,7 +46,7 @@ namespace random {
         global::assertf(1ll * minSize * tests <= totalSize, "[distributeSize] totalSize is less than minSize * tests.");
 
         totalSize -= minSize * tests;
-        auto borders = generateNDistinctRandomIntegers(0, totalSize + tests - 1, tests - 1, rng);
+        auto borders = distinctIntegers(0, totalSize + tests - 1, tests - 1, rng);
         std::sort(borders.begin(), borders.end());
 
         std::vector<T> result(tests);
@@ -72,7 +72,7 @@ namespace random {
     std::vector<T> distributeToGroups(int size, const T &minValue, const T &maxValue, random_t &rng) {
         global::assertf(maxValue - minValue <= size, "[generateRandomGroups] maxValue - minValue <= size must holds");
         auto result = generateRandomVector(size, minValue, maxValue, rng);
-        auto leaders = generateNDistinctRandomIntegers(0, size, maxValue - minValue, rng);
+        auto leaders = distinctIntegers(0, size, maxValue - minValue, rng);
         for (int i = 0; i < int(leaders.size()); i++) {
             result[leaders[i]] = minValue + i;
         }

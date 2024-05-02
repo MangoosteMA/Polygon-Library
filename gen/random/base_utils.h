@@ -28,7 +28,7 @@ namespace random {
     // Generates n distinct random integers from [minValue, maxValue)
     // Returned integers are not sorted
     template<typename T, typename random_t>
-    std::vector<T> distinctRandomIntegers(const T &minValue, const T &maxValue, int n, random_t &rng);
+    std::vector<T> distinctIntegers(const T &minValue, const T &maxValue, int n, random_t &rng);
 
     // Generates random vector of size 'tests' with values >= 'minSize' and the sum equal to 'totalSize'
     template<typename T, typename random_t>
