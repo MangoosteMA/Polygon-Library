@@ -5,7 +5,7 @@
 
 class UndirectedGraph {
 public:
-    UndirectedGraph(int size);
+    UndirectedGraph(int size = 0);
     UndirectedGraph(int size, const std::vector<std::pair<int, int>> &edges);
 
     // (number of vertices, number of edges)

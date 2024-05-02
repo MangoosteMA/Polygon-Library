@@ -3,7 +3,9 @@
 #include "../global/global.h"
 #include "../random/random.h"
 
+#include <algorithm>
 #include <functional>
+#include <numeric>
 
 namespace random::tree {
     template<typename random_t>
@@ -68,7 +70,53 @@ namespace random::tree {
         return UndirectedGraph(vertices, tree);
     }
 
-    std::vector<int> decodeParentArray(const UndirectedGraph &graph, int root = 0) {
+    template<typename random_t>
+    UndirectedGraph bamboo(int vertices, int root, bool shuffle, random_t &rng) {
+        global::assertf(-1 <= root && root < vertices, "[bamboo] root must be from interval [-1, n).");
+        if (vertices == 0) {
+            return UndirectedGraph();
+        }
+
+        if (root == -1) {
+            root = random::random(0, vertices, rng);
+        }
+
+        std::vector<int> order(vertices);
+        std::iota(order.begin(), order.end(), 0);
+        std::swap(order[root], order[0]);
+
+        if (shuffle) {
+            random::shuffle(order.begin() + 1, order.end(), rng);
+        }
+
+        std::vector<std::pair<int, int>> edges(vertices - 1);
+        for (int i = 0; i + 1 < vertices; i++) {
+            edges[i] = std::make_pair(order[i], order[i + 1]);
+        }
+        return UndirectedGraph(vertices, edges);
+    }
+
+    template<typename random_t>
+    UndirectedGraph star(int vertices, int root, random_t &rng) {
+        global::assertf(-1 <= root && root < vertices, "[star] root must be from interval [-1, n).");
+        if (vertices == 0) {
+            return UndirectedGraph();
+        }
+
+        if (root == -1) {
+            root = random::random(0, vertices, rng);
+        }
+        std::vector<std::pair<int, int>> edges;
+        edges.reserve(vertices - 1);
+        for (int i = 0; i < vertices; i++) {
+            if (i != root) {
+                edges.emplace_back(i, root);
+            }
+        }
+        return UndirectedGraph(vertices, edges);
+    }
+
+    std::vector<int> decodeParentArray(const UndirectedGraph &graph, int root) {
         global::assertf(graph.isTree(), "[decodeParentArray] Can't decode parents for non-tree graph.");
 
         const auto g = graph.graph();
