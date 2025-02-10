@@ -50,7 +50,7 @@ namespace random::tree {
             }
         }
 
-        if (prufer.back() == vertices - 1) {
+        if (vertices == 2 || prufer.back() == vertices - 1) {
             while (count[pointer] > 0) {
                 pointer++;
             }
